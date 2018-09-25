@@ -8,11 +8,17 @@ class App extends Component {
   }
 
   componentWillMount() {
-    const messageRef = fire.database().ref();
+    const messageRef = fire.database().ref("messages");
 
     messageRef.on("value", snapshot => {
+      console.log("massages", snapshot.val())
       this.setState({
-        messages: snapshot.val().messages
+        messages: Object.entries(snapshot.val() || {}).map(
+          ([key, value]) => ({
+            id: key,
+            caption: value
+          })
+        )
       });
     });
   }
@@ -28,19 +34,16 @@ class App extends Component {
   }
 
   render() {
-    const root = fire.database().ref("messages");
 
-    root.on("value", function(snap) {
-      console.log(snap.val());
-    });
+    console.log(this.state.messages)
 
     return (
       <form onSubmit={this.addMessage.bind(this)}>
         <input type="text" ref={el => (this.inputEl = el)} />
         <input type="submit" />
         <ul>
-          {Object.entries(this.state.messages).map(a => (
-            <li key={a[0]}>{a[1]}</li>
+          {this.state.messages.map(a => (
+            <li key={a.id}>{a.caption}</li>
           ))}
         </ul>
       </form>
