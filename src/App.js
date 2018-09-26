@@ -1,68 +1,39 @@
 import React, { Component } from "react";
+import Comunicator from "./components/Comunicator/views/Comunicator"
+import Home from "./Home"
+import Login from "./Login"
 import fire from "./fire";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { messages: [] };
+  constructor() {
+    super();
+    this.state = ({
+      user: null,
+    });
+    this.authListener = this.authListener.bind(this);
   }
 
-  componentWillMount() {
-    const messageRef = fire.database().ref("messages");
+  componentDidMount() {
+    this.authListener();
+  }
 
-    messageRef.on("value", snapshot => {
-      console.log("massages", snapshot.val());
-      this.setState({
-        messages: Object.entries(snapshot.val() || {}).map(([key, value]) => ({
-          id: key,
-          caption: value
-        }))
-      });
+  authListener() {
+    fire.auth().onAuthStateChanged((user) => {
+      console.log(user);
+      if (user) {
+        this.setState({ user });
+        localStorage.setItem('user', user.uid);
+      } else {
+        this.setState({ user: null });
+        localStorage.removeItem('user');
+      }
     });
   }
-
-  addMessage = e => {
-    e.preventDefault();
-
-    fire
-      .database()
-      .ref("messages")
-      .push(this.inputEl.value);
-    this.inputEl.value = "";
-  };
-
-  removeMessage = (key) => {
-    fire
-      .database()
-      .ref("messages")
-      .child(key)
-      .remove();
-  };
-
   render() {
-    console.log(this.state.messages);
-
     return (
-      <div>
-        <form>
-          <input type="text" ref={el => (this.inputEl = el)} />
-          <input type="submit" onClick={this.addMessage} />
-        </form>
-        <table>
-          <tbody>
-            {this.state.messages.map(a => (
-              <tr key={a.id}>
-                <td key={a.id}>{a.caption}</td>
-                <td>
-                  <button onClick={() => this.removeMessage(a.id)}>Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
+     <div>{this.state.user ? <Home/> : <Login />}</div>
+    )
+}
 }
 
-export default App;
+ export default App;
