@@ -11,42 +11,56 @@ class App extends Component {
     const messageRef = fire.database().ref("messages");
 
     messageRef.on("value", snapshot => {
-      console.log("massages", snapshot.val())
+      console.log("massages", snapshot.val());
       this.setState({
-        messages: Object.entries(snapshot.val() || {}).map(
-          ([key, value]) => ({
-            id: key,
-            caption: value
-          })
-        )
+        messages: Object.entries(snapshot.val() || {}).map(([key, value]) => ({
+          id: key,
+          caption: value
+        }))
       });
     });
   }
 
-  addMessage(e) {
+  addMessage = e => {
     e.preventDefault();
-    
+
     fire
       .database()
       .ref("messages")
       .push(this.inputEl.value);
     this.inputEl.value = "";
-  }
+  };
+
+  removeMessage = (key) => {
+    fire
+      .database()
+      .ref("messages")
+      .child(key)
+      .remove();
+  };
 
   render() {
-
-    console.log(this.state.messages)
+    console.log(this.state.messages);
 
     return (
-      <form onSubmit={this.addMessage.bind(this)}>
-        <input type="text" ref={el => (this.inputEl = el)} />
-        <input type="submit" />
-        <ul>
-          {this.state.messages.map(a => (
-            <li key={a.id}>{a.caption}</li>
-          ))}
-        </ul>
-      </form>
+      <div>
+        <form>
+          <input type="text" ref={el => (this.inputEl = el)} />
+          <input type="submit" onClick={this.addMessage} />
+        </form>
+        <table>
+          <tbody>
+            {this.state.messages.map(a => (
+              <tr key={a.id}>
+                <td key={a.id}>{a.caption}</td>
+                <td>
+                  <button onClick={() => this.removeMessage(a.id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
