@@ -1,0 +1,19 @@
+#signUp {
+    display:flex;
+    flex-direction: column;
+    padding-top: 30%;
+    padding-left: 30%;
+    width: 40%;
+    padding-right: 30%;
+}
+
+#signUp > input {
+    flex-grow: 1;
+}
+
+#signUp > div {
+    flex-grow: 1;
+}
+
+
+

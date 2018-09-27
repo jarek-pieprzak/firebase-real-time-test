@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import Comunicator from "./components/Comunicator/views/Comunicator"
 import Home from "./Home"
-import Login from "./Login"
+import Login from "./components/Authenticate/views/Login"
 import fire from "./fire";
 
 class App extends Component {
