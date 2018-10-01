@@ -1,0 +1,16 @@
+#signIn {
+    display:flex;
+    flex-direction: column;
+    padding-top: 30%;
+    padding-left: 30%;
+    width: 40%;
+    padding-right: 30%;
+}
+
+#signIn > input {
+    flex-grow: 1;
+}
+
+#signIn > div {
+    flex-grow: 1;
+}

@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import fire from "../../../fire";
 
-import "./styles/SignUp.css";
+import "./styles/SignIn.css"
 
-class SignUp extends Component {
+import SignUp from "./SignUp"
+
+class SignIn extends Component {
   constructor(props) {
     super(props);
 
@@ -11,8 +13,7 @@ class SignUp extends Component {
       email: "",
       password: "",
       errorMessage: "",
-      errorCode: "",
-      user: null
+      errorCode: ""
     };
   }
 
@@ -30,33 +31,35 @@ class SignUp extends Component {
     });
   };
 
-  emailSignUp = () => {
+  emailSignIn = () => {
     fire
       .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(a =>
-        fire
-          .database()
-          .ref("users/" + a.user.uid)
-          .set({
-            // username: name,
-            email: this.state.email
-            // profile_picture: imageUrl
-          })
-      )
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      // .then(
+      //   this.setState({
+      //     email: "",
+      //     password: ""
+      //   })
+      // )
       .catch(error => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        
-          this.setState({errorMessage: errorMessage})
-          
-        console.log(error);
-    });
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+        this.setState({
+          errorMessage: errorMessage,
+          errorCode: errorCode,
+          email: "",
+          password: ""
+        });
+      });
   };
 
   render() {
+    // console.log("email", this.state.email);
+    // console.log("password", this.state.password);
+
     return (
-      <div id="signUp">
+      <div id="signIn">
         <input
           type="text"
           placeholder="E-Mail"
@@ -70,9 +73,9 @@ class SignUp extends Component {
           onChange={this.onPasswordChange}
         />
         <div className="errorMessage">{this.state.errorMessage}</div>
-        <div onClick={() => this.emailSignUp()}>Create Account</div>
+        <div onClick={() => this.emailSignIn()}>Log In</div>
       </div>
     );
   }
 }
-export default SignUp;
+export default SignIn;
