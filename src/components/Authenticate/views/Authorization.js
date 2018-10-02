@@ -2,14 +2,16 @@ import React, { Component } from "react";
 import SignIn from "./SignIn"
 import SignUp from "./SignUp"
 
+import './styles/Authorization.css'
+
 class Authorization extends Component {
 
   render() {
 
     return (
-     <div>
+     <div className="auth-container">
          <SignIn />
-         <SignUp />
+         {/* <SignUp /> */}
      </div>
     )
 }

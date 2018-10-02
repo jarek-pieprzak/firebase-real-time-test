@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import fire from "../../../fire";
 
-import "./styles/SignIn.css"
-
-import SignUp from "./SignUp"
+import "./styles/SignIn.css";
 
 class SignIn extends Component {
   constructor(props) {
@@ -42,12 +40,10 @@ class SignIn extends Component {
       //   })
       // )
       .catch(error => {
-        var errorCode = error.code;
         var errorMessage = error.message;
 
         this.setState({
           errorMessage: errorMessage,
-          errorCode: errorCode,
           email: "",
           password: ""
         });
@@ -59,23 +55,74 @@ class SignIn extends Component {
     // console.log("password", this.state.password);
 
     return (
-      <div id="signIn">
-        <input
-          type="text"
-          placeholder="E-Mail"
-          value={this.state.email}
-          onChange={this.onEmailChange}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={this.state.password}
-          onChange={this.onPasswordChange}
-        />
-        <div className="errorMessage">{this.state.errorMessage}</div>
-        <div onClick={() => this.emailSignIn()}>Log In</div>
+      <div className="Auth-Screen">
+        <div className="SignInWrapper">
+          <div className="container">
+            <h1>Hello!</h1>
+
+            <div className="form">
+              <input
+                type="text"
+                placeholder="Username"
+                value={this.state.email}
+                onChange={this.onEmailChange}
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={this.state.password}
+                onChange={this.onPasswordChange}
+              />
+              <button
+                type="submit"
+                id="login-button"
+                onClick={() => this.emailSignIn()}
+              >
+                Login
+              </button>
+            </div>
+          </div>
+        </div>
+        <ul className="bg-bubbles">
+          <li />
+          <li />
+          <li />
+          <li />
+          <li />
+          <li />
+          <li />
+          <li />
+          <li />
+          <li />
+        </ul>
       </div>
     );
   }
 }
 export default SignIn;
+
+{
+  /* <div id="signInContainer">
+        <div className="forms-container">
+          <div className="form-input">
+            <input
+              type="text"
+              placeholder="E-Mail"
+              value={this.state.email}
+              onChange={this.onEmailChange}
+            />
+          </div>
+          <div className="form-input">
+            <input
+              type="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.onPasswordChange}
+            />
+          </div>
+        </div>
+
+        <div className="errorMessage">{this.state.errorMessage}</div>
+        <div onClick={() => this.emailSignIn()}>Log In</div>
+      </div> */
+}

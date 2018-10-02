@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import fire from "../../../fire";
 
-import "./styles/SignUp.css";
+// import "./styles/SignUp.css";
 
 class SignUp extends Component {
   constructor(props) {
@@ -45,7 +45,7 @@ class SignUp extends Component {
           })
       )
       .catch(error => {
-        const errorCode = error.code;
+        // const errorCode = error.code;
         const errorMessage = error.message;
         
           this.setState({errorMessage: errorMessage})
